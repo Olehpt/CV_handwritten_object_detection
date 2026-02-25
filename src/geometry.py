@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from numpy import sqrt as sqrt
+import numpy as np
 
 @dataclass
 class Point:
@@ -16,4 +16,8 @@ class Line:
         self.Vec = Point(self.A.x - self.B.x, self.A.y - self.B.y)
 
     def length(self) -> float:
-        return sqrt(self.Vec.x ** 2 + self.Vec.y ** 2)
+        return np.sqrt(self.Vec.x ** 2 + self.Vec.y ** 2)
+    def angle(self) -> float:
+        return np.arctan2(self.Vec.y, self.Vec.x) % np.pi
+    def center(self)->Point:
+        return Point(self.A.x + self.B.x / 2, self.A.y + self.B.y / 2)
