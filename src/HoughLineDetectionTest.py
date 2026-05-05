@@ -21,7 +21,6 @@ h_result = cv.HoughLinesP(img_post, 1, np.pi/180, 30, maxLineGap = 10)
 
 lines = []
 
-
 for h_line in h_result:
     x1, y1, x2, y2 = h_line[0]
     line = Line(Point(x1, y1), Point(x2, y2))
@@ -32,11 +31,8 @@ for h_line in h_result:
 tolerance_param = 20
 
 for line in lines:
-    for other in lines:
-        if line == other:
-            continue
-        if is_close(line.A, other.A, tolerance_param) and is_close(line.B, other.B, tolerance_param):
-            pass
+    draw.draw_dot_bounds(img, line.A, 5, (255, 0, 0))
+    draw.draw_dot_bounds(img, line.B, 5, (255, 0, 0))
 
 
 
