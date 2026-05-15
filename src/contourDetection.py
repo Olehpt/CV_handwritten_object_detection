@@ -2,7 +2,7 @@ import cv2
 
 def contour_detection(img):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
     contours, _ = cv2.findContours(
         thresh,
         cv2.RETR_EXTERNAL,
