@@ -1,9 +1,9 @@
-import contourDetection
+from contourDetection import contour_detection
 import cv2
 from geometry import Point
 
 def crop(img, offset = 5, points = None):
-    if points is None: points = contourDetection.contour_detection(img)
+    if points is None: points = contour_detection(img)
 
     x0, y0 = points[0]
 
@@ -37,6 +37,7 @@ def crop(img, offset = 5, points = None):
 
 if __name__ == "__main__":
     img = cv2.imread("../data/test3.png")
+    print(img.shape)
     cropped = crop(img)
     cv2.imshow("test", cropped)
     cv2.waitKey(0)

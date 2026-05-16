@@ -1,7 +1,7 @@
 import cv2 as cv, os, numpy as np
 from src.contourDetection import contour_detection
 
-file_paths = ['file1', 'file2', 'file3']
+file_paths = ['data/test1.png', 'file2', 'file3']
 
 imgs = []
 for path in file_paths:
