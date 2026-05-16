@@ -30,20 +30,15 @@ for point in points:
         if x > p3.x: p3 = Point(x,y)
         if y > p4.y: p4 = Point(x,y)
 
-p_low = Point(p1.x, p4.y)
-p_high = Point(p3.x, p2.y)
+offset = 25
+p_low = Point(p1.x - offset, p4.y + offset)
+p_high = Point(p3.x + offset, p2.y - offset)
 
+cropped = img[p_high.y:p_low.y, p_low.x:p_high.x]
 
-
-
-
-draw.draw_dot_bounds(img, p1, 5, (0,0,255))
-draw.draw_dot_bounds(img, p2, 5, (0,0,255))
-draw.draw_dot_bounds(img, p3, 5, (0,0,255))
-draw.draw_dot_bounds(img, p4, 5, (0,0,255))
 draw.draw_dot_bounds(img, p_low, 5, (0,255,0))
 draw.draw_dot_bounds(img, p_high, 5, (0,255,0))
 
-cv2.imshow("img", img)
+cv2.imshow("img", cropped)
 cv2.waitKey(0)
 
