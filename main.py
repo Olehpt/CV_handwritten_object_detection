@@ -3,6 +3,9 @@ from src.contourDetection import contour_detection
 from src.cropping import crop
 from src.resizing import resize
 
+from skimage.measure import marching_cubes
+import trimesh
+
 file_paths = ['data/test1.png', 'data/test2.png', 'data/test3.png']
 
 imgs = []
@@ -24,13 +27,36 @@ for i, img in enumerate(imgs):
     cropped_img = crop(img, points = contour)
     cropped.append(cropped_img)
 
+voxel_resolution = 128
+
 resized=[]
 for i, cropped_img in enumerate(cropped):
-    resized_img = resize(cropped_img)
+    resized_img = resize(cropped_img, voxel_resolution)
+    resized_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
     resized.append(resized_img)
 
-cv2.imshow('img1', resized[0])
-cv2.imshow('img2', resized[1])
-cv2.imshow('img3', resized[2])
-print(resized[0].shape, resized[1].shape, resized[2].shape)
-cv2.waitKey(0)
+voxels = np.zeros((voxel_resolution, voxel_resolution, voxel_resolution), dtype=bool)
+
+for x in range(voxel_resolution):
+    for y in range(voxel_resolution):
+        for z in range(voxel_resolution):
+            if (
+                resized[0][y, x] == 0 and #front
+                resized[1][y, z] == 0 and #side
+                resized[2][z, x] == 0 #top
+            ):
+                voxels[x, y, z] = 1
+
+#voxels to mesh?
+
+verts, faces, normals, values = marching_cubes(
+    voxels.astype(np.float32),
+    level=0.5
+)
+
+mesh = trimesh.Trimesh(
+    vertices=verts,
+    faces=faces
+)
+
+mesh.export("result.obj")
