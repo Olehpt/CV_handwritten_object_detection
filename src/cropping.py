@@ -1,6 +1,6 @@
-from contourDetection import contour_detection
+from src.contourDetection import contour_detection
 import cv2
-from geometry import Point
+from src.geometry import Point
 
 def crop(img, offset = 5, points = None):
     if points is None: points = contour_detection(img)
